@@ -1,10 +1,8 @@
 ﻿@model IEnumerable<eCommerce.Models.Product>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Manage Products";
 }
-
-<h1>Index</h1>
 
 @{
     if (TempData["SuccessMessage"] != null)
@@ -24,10 +22,10 @@
     }
 }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<div class="container">
+    <h1>Manage Products</h1>
+    <a class="btn btn-dark mb-3" asp-action="Create">Create New Product</a>
+    <table class="table table-responsive-md">
     <thead>
         <tr>
             <th>
@@ -79,11 +77,12 @@
                 @Html.DisplayFor(modelItem => item.Category.Id)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-dark">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+</div>
