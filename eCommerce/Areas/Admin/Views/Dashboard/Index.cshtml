@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="text-center">
+    <h1>@ViewData["Title"]</h1>
+    <p>Welcome to the admin dashboard. From here, you can manage various aspects of the site.</p>
+
+    <div class="list-group">
+        <a class="list-group-item list-group-item-action" asp-area="Admin" asp-controller="Dashboard" asp-action="Product">Manage Products</a>
+        <a class="list-group-item list-group-item-action" asp-area="Admin" asp-controller="Dashboard" asp-action="Category">Manage Categories</a>
+    </div>
+</div>
