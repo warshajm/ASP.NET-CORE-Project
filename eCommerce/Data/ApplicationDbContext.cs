@@ -94,7 +94,7 @@ namespace eCommerce.Data
                     Name = "Laptop",
                     Price = 999.99m,
                     Description = "A high-performance laptop.",
-                    ImageUrl = "https://example.com/laptop.jpg",
+                    Image = "laptop.jpg",
                     Stock = 50,
                     CategoryId = "Cat001"
                 },
@@ -104,7 +104,7 @@ namespace eCommerce.Data
                     Name = "Smartphone",
                     Price = 499.99m,
                     Description = "A latest model smartphone.",
-                    ImageUrl = "https://example.com/smartphone.jpg",
+                    Image = "smartphone.jpg",
                     Stock = 100,
                     CategoryId = "Cat001"
                 },
@@ -114,7 +114,7 @@ namespace eCommerce.Data
                     Name = "Mystery Novel",
                     Price = 15.99m,
                     Description = "A thrilling mystery novel.",
-                    ImageUrl = "https://example.com/mystery-novel.jpg",
+                    Image = "book.jpg",
                     Stock = 200,
                     CategoryId = "Cat002"
                 },
@@ -124,7 +124,7 @@ namespace eCommerce.Data
                     Name = "Winter Jacket",
                     Price = 89.99m,
                     Description = "A warm winter jacket.",
-                    ImageUrl = "https://example.com/winter-jacket.jpg",
+                    Image = "jacket.jpg",
                     Stock = 30,
                     CategoryId = "Cat003"
                 }

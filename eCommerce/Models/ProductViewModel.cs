@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eCommerce.Models
 {
-    public class Product
+    public class ProductViewModel
     {
         [Key]
         public int Id { get; set; }

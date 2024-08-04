@@ -60,7 +60,7 @@ namespace eCommerce.Areas.Admin.Controllers
         // POST: Admin/Product/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Description,ImageUrl,Stock,CategoryId")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Description,Image,Stock,CategoryId")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -119,7 +119,7 @@ namespace eCommerce.Areas.Admin.Controllers
         // POST: Admin/Product/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Description,ImageUrl,Stock,CategoryId")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Description,Image,Stock,CategoryId")] Product product)
         {
             if (id != product.Id)
             {

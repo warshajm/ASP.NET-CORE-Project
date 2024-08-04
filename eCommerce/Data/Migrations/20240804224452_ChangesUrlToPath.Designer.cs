@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eCommerce.Data;
 
@@ -11,9 +12,10 @@ using eCommerce.Data;
 namespace eCommerce.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240804224452_ChangesUrlToPath")]
+    partial class ChangesUrlToPath
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,7 +201,7 @@ namespace eCommerce.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("Image")
+                    b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -226,7 +228,7 @@ namespace eCommerce.Data.Migrations
                             Id = 1,
                             CategoryId = "Cat001",
                             Description = "A high-performance laptop.",
-                            Image = "laptop.jpg",
+                            ImagePath = "images/products/laptop.jpg",
                             Name = "Laptop",
                             Price = 999.99m,
                             Stock = 50
@@ -236,7 +238,7 @@ namespace eCommerce.Data.Migrations
                             Id = 2,
                             CategoryId = "Cat001",
                             Description = "A latest model smartphone.",
-                            Image = "smartphone.jpg",
+                            ImagePath = "images/products//smartphone.jpg",
                             Name = "Smartphone",
                             Price = 499.99m,
                             Stock = 100
@@ -246,7 +248,7 @@ namespace eCommerce.Data.Migrations
                             Id = 3,
                             CategoryId = "Cat002",
                             Description = "A thrilling mystery novel.",
-                            Image = "book.jpg",
+                            ImagePath = "images/products/books.jpg",
                             Name = "Mystery Novel",
                             Price = 15.99m,
                             Stock = 200
@@ -256,7 +258,7 @@ namespace eCommerce.Data.Migrations
                             Id = 4,
                             CategoryId = "Cat003",
                             Description = "A warm winter jacket.",
-                            Image = "jacket.jpg",
+                            ImagePath = "images/products/jacket.jpg",
                             Name = "Winter Jacket",
                             Price = 89.99m,
                             Stock = 30

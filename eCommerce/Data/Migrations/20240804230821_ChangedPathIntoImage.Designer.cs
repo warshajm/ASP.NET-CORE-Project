@@ -12,8 +12,8 @@ using eCommerce.Data;
 namespace eCommerce.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240803202850_UpdatedPrdocuctModel")]
-    partial class UpdatedPrdocuctModel
+    [Migration("20240804230821_ChangedPathIntoImage")]
+    partial class ChangedPathIntoImage
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -201,7 +201,7 @@ namespace eCommerce.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -228,7 +228,7 @@ namespace eCommerce.Data.Migrations
                             Id = 1,
                             CategoryId = "Cat001",
                             Description = "A high-performance laptop.",
-                            ImageUrl = "https://example.com/laptop.jpg",
+                            Image = "laptop.jpg",
                             Name = "Laptop",
                             Price = 999.99m,
                             Stock = 50
@@ -238,7 +238,7 @@ namespace eCommerce.Data.Migrations
                             Id = 2,
                             CategoryId = "Cat001",
                             Description = "A latest model smartphone.",
-                            ImageUrl = "https://example.com/smartphone.jpg",
+                            Image = "smartphone.jpg",
                             Name = "Smartphone",
                             Price = 499.99m,
                             Stock = 100
@@ -248,7 +248,7 @@ namespace eCommerce.Data.Migrations
                             Id = 3,
                             CategoryId = "Cat002",
                             Description = "A thrilling mystery novel.",
-                            ImageUrl = "https://example.com/mystery-novel.jpg",
+                            Image = "books.jpg",
                             Name = "Mystery Novel",
                             Price = 15.99m,
                             Stock = 200
@@ -258,7 +258,7 @@ namespace eCommerce.Data.Migrations
                             Id = 4,
                             CategoryId = "Cat003",
                             Description = "A warm winter jacket.",
-                            ImageUrl = "https://example.com/winter-jacket.jpg",
+                            Image = "jacket.jpg",
                             Name = "Winter Jacket",
                             Price = 89.99m,
                             Stock = 30
