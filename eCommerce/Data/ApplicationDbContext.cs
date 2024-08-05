@@ -130,5 +130,7 @@ namespace eCommerce.Data
                 }
             );
         }
+
+        public DbSet<eCommerce.Models.ProductViewModel>? ProductViewModel { get; set; }
     }
 }

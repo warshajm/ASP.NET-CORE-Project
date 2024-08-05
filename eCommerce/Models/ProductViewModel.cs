@@ -30,8 +30,6 @@ namespace eCommerce.Models
         [Required]
         public string CategoryId { get; set; }
 
-        [ForeignKey("CategoryId")]
-        [ValidateNever]
-        public Category Category { get; set; }
+        public string CategoryName { get; set; }
     }
 }

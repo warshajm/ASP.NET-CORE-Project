@@ -1,0 +1,28 @@
+﻿@model eCommerce.Models.ProductViewModel
+
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<h1>Product Details</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <img src="@Url.Content($"~/images/products/{Model.Image}")" class="img-fluid" alt="@Model.Name" />
+    </div>
+
+    <div class="col-md-6">
+        <h2>@Model.Name</h2>
+        <p><strong>Category:</strong> @Model.CategoryName</p>
+        <p><strong>Price:</strong> @Model.Price.ToString("C")</p>
+        <p><strong>Description:</strong> @Model.Description</p>
+        <p><strong>Stock:</strong> @Model.Stock</p>
+
+        <form method="post" action="@Url.Action("AddToCart", "Cart")">
+            <input type="hidden" name="productId" value="@Model.Id" />
+            <button type="submit" class="btn btn-primary">Add to Cart</button>
+        </form>
+
+        <a href="@Url.Action("Index", "Shop")" class="btn btn-secondary mt-3">Back to Shop</a>
+    </div>
+</div>
