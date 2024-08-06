@@ -16,12 +16,18 @@ namespace eCommerce.Models
         [StringLength(250)]
         public string Address { get; set; }
 
-        [StringLength(20)]
+        [Required]
+        [Phone]
         public string PhoneNumber { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime DOB { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email Address")]
+        public string Email { get; set; }
 
         public ICollection<Cart> Carts { get; set; }
         public ICollection<Order> Orders { get; set; }

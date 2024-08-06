@@ -10,6 +10,8 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using eCommerce.Models;
+using eCommerce.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -32,6 +34,7 @@ namespace eCommerce.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ApplicationDbContext _context;
 
 
         public RegisterModel(
@@ -40,7 +43,8 @@ namespace eCommerce.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager, 
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -49,6 +53,7 @@ namespace eCommerce.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _context = context;
         }
 
         /// <summary>
@@ -107,8 +112,39 @@ namespace eCommerce.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
+            [Display(Name = "Full Name")]
+            public string FullName { get; set; }
+
+            [Required]
+            [Display(Name = "Address")]
+            public string Address { get; set; }
+
+            [Required]
+            [Phone]
+            [Display(Name = "Phone Number")]
+            [RegularExpression(@"^\+?[1-9]\d{1,14}$", ErrorMessage = "Invalid phone number format.")]
+            public string PhoneNumber { get; set; }
+
+            private DateTime _dob;
+            [Required]
+            [DataType(DataType.Date)]
+            [Display(Name = "Date of Birth")]
+            public DateTime DOB
+            {
+                get => _dob;
+                set
+                {
+                    _dob = value;
+                    
+                }
+            }
+
+            [Required]
             [Display(Name = "Role")]
             public string Role { get; set; }
+
+            public bool IsEmailExisting { get; set; }
+            public bool IsPhoneNumberExisting { get; set; }
         }
 
 
@@ -126,6 +162,32 @@ namespace eCommerce.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+                // DOB validation
+                if (Input.DOB > DateTime.Now.AddYears(-18))
+                {
+                    ModelState.AddModelError(nameof(Input.DOB), "You must be at least 18 years old.");
+                    Roles = await GetRolesAsync();
+                    return Page();
+                }
+
+                // check for existing email in IdentityUser
+                var existingUser = await _userManager.FindByEmailAsync(Input.Email);
+                if (existingUser != null)
+                {
+                    ModelState.AddModelError(nameof(Input.Email), "Email is already taken.");
+                    Input.IsEmailExisting = true;
+                }
+
+                // check if the phone number is already taken in customer table
+                var existingCustomer = await _context.Customers
+                    .FirstOrDefaultAsync(c => c.PhoneNumber == Input.PhoneNumber);
+                if (existingCustomer != null)
+                {
+                    ModelState.AddModelError(nameof(Input.PhoneNumber), "Phone number is already taken.");
+                    Roles = await GetRolesAsync();
+                    return Page();
+                }
+
                 var user = CreateUser();
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
@@ -144,6 +206,24 @@ namespace eCommerce.Areas.Identity.Pages.Account
                     await _userManager.AddToRoleAsync(user, Input.Role);
 
                     var userId = await _userManager.GetUserIdAsync(user);
+
+                    // only create a Customer record if the role is "Customer"
+                    if (Input.Role == "Customer")
+                    {
+                        var customer = new Models.Customer
+                        {
+                            CustomerId = userId,
+                            FullName = Input.FullName,
+                            Address = Input.Address,
+                            PhoneNumber = Input.PhoneNumber,
+                            DOB = Input.DOB,
+                            Email = Input.Email,
+                        };
+
+                        _context.Customers.Add(customer);
+                        await _context.SaveChangesAsync();
+                    }
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(

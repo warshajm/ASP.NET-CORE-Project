@@ -12,8 +12,8 @@ using eCommerce.Data;
 namespace eCommerce.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240806173935_UpdatedCustomerTable")]
-    partial class UpdatedCustomerTable
+    [Migration("20240806175119_UpdatedCustomerModel")]
+    partial class UpdatedCustomerModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -115,7 +115,7 @@ namespace eCommerce.Data.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime>("DOB")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FullName")
