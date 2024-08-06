@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Product Details";
+    var isUserLoggedIn = User.Identity.IsAuthenticated;
+    var isCustomer = User.IsInRole("Customer");
 }
 
 <h1>Product Details</h1>
@@ -18,10 +20,28 @@
         <p><strong>Description:</strong> @Model.Description</p>
         <p><strong>Stock:</strong> @Model.Stock</p>
 
-        <form method="post" action="@Url.Action("AddToCart", "Cart")">
-            <input type="hidden" name="productId" value="@Model.Id" />
-            <button type="submit" class="btn btn-primary">Add to Cart</button>
-        </form>
+        @if (isUserLoggedIn)
+        {
+            if (isCustomer)
+            {
+                <form method="post" action="@Url.Action("AddToCart", "Cart", new { area = "Customer" })">
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <div class="form-group">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" name="quantity" id="quantity" class="form-control" min="1" max="@Model.Stock" value="1" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                </form>
+            }
+            else
+            {
+                <p>You must be a customer to add items to the cart. <a asp-area="Identity" asp-page="/Account/Login">Login</a> or <a asp-area="Identity" asp-page="/Account/Register">Register</a> as a customer.</p>
+            }
+        }
+        else
+        {
+            <p>Please <a asp-area="Identity" asp-page="/Account/Login">log in</a> to add items to the cart.</p>
+        }
 
         <a href="@Url.Action("Index", "Shop")" class="btn btn-secondary mt-3">Back to Shop</a>
     </div>

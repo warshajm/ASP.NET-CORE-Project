@@ -7,12 +7,8 @@ namespace eCommerce.Models
     public class Customer
     {
         [Key]
-        public string CustomerId { get; set; } // Primary Key, matches IdentityUser.Id
+        public string CustomerId { get; set; } 
 
-        [ForeignKey("CustomerId")]
-        public IdentityUser User { get; set; }
-
-        // Additional customer properties
         [Required]
         [StringLength(100)]
         public string FullName { get; set; }
@@ -22,6 +18,10 @@ namespace eCommerce.Models
 
         [StringLength(20)]
         public string PhoneNumber { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime DateOfBirth { get; set; }
 
         public ICollection<Cart> Carts { get; set; }
         public ICollection<Order> Orders { get; set; }

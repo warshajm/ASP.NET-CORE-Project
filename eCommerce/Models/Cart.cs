@@ -14,6 +14,6 @@ namespace eCommerce.Models
         [ForeignKey("CustomerId")]
         public Customer Customer { get; set; }
 
-        public ICollection<CartItem> CartItems { get; set; }
+        public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
     }
 }
