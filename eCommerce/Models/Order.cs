@@ -20,6 +20,24 @@ namespace eCommerce.Models
         [Required]
         public decimal TotalAmount { get; set; }
 
+        [Required]
+        public string FullName { get; set; }
+
+        [Required]
+        public string Address { get; set; }
+
+        [Required]
+        public string City { get; set; }
+
+        [Required]
+        public string State { get; set; }
+
+        [Required]
+        public string ZipCode { get; set; }
+
+        [Required]
+        public string PaymentMethod { get; set; }
+
         public ICollection<OrderItem> OrderItems { get; set; }
     }
 }
