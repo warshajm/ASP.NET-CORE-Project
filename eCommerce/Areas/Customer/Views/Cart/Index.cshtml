@@ -24,32 +24,34 @@
 else
 {
     <table class="table mt-4 table-responsive">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.CartItems)
-        {
+        <thead>
             <tr>
-                <td>@item.ProductName</td>
-                <td>@item.Quantity</td>
-                <td>@item.Price.ToString("C")</td>
-                <td>@item.Total.ToString("C")</td>
-                <td>
-                    <form method="post" asp-action="Remove" asp-route-productId="@item.ProductId" style="display:inline;">
-                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-                    </form>
-                </td>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CartItems)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td>@item.Total.ToString("C")</td>
+                    <td>
+                        <form method="post" asp-action="Remove" asp-route-productId="@item.ProductId" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<h3>Total Price: @Model.TotalPrice.ToString("C")</h3>
+    <h5>Sub-Total: @Model.Subtotal.ToString("C")</h5>
+
+    <a class="btn btn-primary mt-4" href="@Url.Action("Checkout", "Cart", new { area = "Customer" })">Proceed to Checkout</a>
 }

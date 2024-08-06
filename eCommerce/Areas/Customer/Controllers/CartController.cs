@@ -139,6 +139,39 @@ namespace eCommerce.Areas.Customer.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Checkout()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "You need to be logged in to proceed to checkout.";
+                return RedirectToAction("Login", "Account", new { area = "Identity" });
+            }
+
+            var cart = await _context.Carts
+                .Include(c => c.CartItems)
+                .ThenInclude(ci => ci.Product)
+                .FirstOrDefaultAsync(c => c.CustomerId == user.Id);
+
+            if (cart == null || !cart.CartItems.Any())
+            {
+                TempData["ErrorMessage"] = "Your cart is empty.";
+                return RedirectToAction("Index");
+            }
+
+            var cartViewModel = new CartViewModel
+            {
+                CartItems = cart.CartItems.Select(ci => new CartItemViewModel
+                {
+                    ProductId = ci.ProductId,
+                    ProductName = ci.Product.Name,
+                    Quantity = ci.Quantity,
+                    Price = ci.Price,
+                }).ToList()
+            };
+
+            return View(cartViewModel);
+        } 
 
     }
 }
