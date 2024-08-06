@@ -107,5 +107,38 @@ namespace eCommerce.Areas.Customer.Controllers
             return RedirectToAction("Details", "Shop", new { id = productId, area = "" });
 
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Remove(int productId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "You need to be logged in to remove items from the cart.";
+                return RedirectToAction("Login", "Account", new { area = "Identity" });
+            }
+
+            var cart = await _context.Carts
+                .Include(c => c.CartItems)
+                .FirstOrDefaultAsync(c => c.CustomerId == user.Id);
+
+            if (cart == null)
+            {
+                TempData["ErrorMessage"] = "Your cart could not be found.";
+                return RedirectToAction("Index", "Shop");
+            }
+
+            var cartItem = cart.CartItems.FirstOrDefault(ci => ci.ProductId == productId);
+            if (cartItem != null)
+            {
+                _context.CartItems.Remove(cartItem);
+                await _context.SaveChangesAsync();
+            }
+
+            TempData["SuccessMessage"] = "Item removed from cart successfully!";
+            return RedirectToAction("Index");
+        }
+
+
     }
 }

@@ -2,6 +2,20 @@
 
 <h1>Shopping Cart</h1>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -9,6 +23,7 @@
             <th>Quantity</th>
             <th>Price</th>
             <th>Total</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -19,6 +34,11 @@
                 <td>@item.Quantity</td>
                 <td>@item.Price.ToString("C")</td>
                 <td>@item.Total.ToString("C")</td>
+                <td>
+                    <form method="post" asp-action="Remove" asp-route-productId="@item.ProductId" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>
