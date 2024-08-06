@@ -15,8 +15,15 @@
         @TempData["ErrorMessage"]
     </div>
 }
-
-<table class="table">
+@if (Model.CartItems == null || !Model.CartItems.Any())
+{
+    <div class="alert alert-info mt-4">
+        Your cart is empty. <a class="text-decoration-none" href="@Url.Action("Index", "Shop", new { area = "" })">Continue shopping..</a>
+    </div>
+}
+else
+{
+    <table class="table mt-4 table-responsive">
     <thead>
         <tr>
             <th>Product</th>
@@ -45,3 +52,4 @@
 </table>
 
 <h3>Total Price: @Model.TotalPrice.ToString("C")</h3>
+}
