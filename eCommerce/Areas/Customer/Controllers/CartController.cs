@@ -25,7 +25,8 @@ namespace eCommerce.Areas.Customer.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return RedirectToAction("Login", "Account");
+                TempData["ErrorMessage"] = "You need to be logged in to view your cart.";
+                return RedirectToAction("Login", "Account", new { area = "Identity" });
             }
 
             var cart = await _context.Carts
@@ -42,6 +43,7 @@ namespace eCommerce.Areas.Customer.Controllers
             {
                 CartItems = cart.CartItems.Select(ci => new CartItemViewModel
                 {
+                    ProductId = ci.ProductId,
                     ProductName = ci.Product.Name,
                     Quantity = ci.Quantity,
                     Price = ci.Price,
@@ -57,13 +59,15 @@ namespace eCommerce.Areas.Customer.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return RedirectToAction("Login", "Account", new { area = "Customer" });
+                TempData["ErrorMessage"] = "You need to be logged in to add items to the cart.";
+                return RedirectToAction("Login", "Account", new { area = "Identity" });
             }
 
             var product = _context.Products.Find(productId);
             if (product == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "The product you are trying to add does not exist.";
+                return RedirectToAction("Index", "Shop");
             }
 
             var cart = _context.Carts.FirstOrDefault(c => c.CustomerId == user.Id);
@@ -83,6 +87,7 @@ namespace eCommerce.Areas.Customer.Controllers
             if (cartItem != null)
             {
                 cartItem.Quantity += quantity;
+                TempData["SuccessMessage"] = "Quantity updated for this item in your cart.";
             }
             else
             {
@@ -94,12 +99,13 @@ namespace eCommerce.Areas.Customer.Controllers
                     Price = product.Price
                 };
                 _context.CartItems.Add(cartItem);
+                TempData["SuccessMessage"] = "Product added to cart successfully!";
             }
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index", "Cart");
-        }
+            return RedirectToAction("Details", "Shop", new { id = productId, area = "" });
 
+        }
     }
 }

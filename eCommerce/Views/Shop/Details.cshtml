@@ -8,6 +8,20 @@
 
 <h1>Product Details</h1>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <div class="row">
     <div class="col-md-6">
         <img src="@Url.Content($"~/images/products/{Model.Image}")" class="img-fluid" alt="@Model.Name" />

@@ -6,6 +6,20 @@
 
 <h1>Shop</h1>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <form method="get" asp-action="Index">
     <div class="row mb-4 align-items-center">
         <div class="col-auto">
