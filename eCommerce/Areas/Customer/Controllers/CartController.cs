@@ -231,7 +231,7 @@ namespace eCommerce.Areas.Customer.Controllers
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Thank you for your purchase! Your order has been placed.";
-            return RedirectToAction("Index", "Shop");
+            return RedirectToAction("Index", "Shop", new { area = "" });
         }
 
 

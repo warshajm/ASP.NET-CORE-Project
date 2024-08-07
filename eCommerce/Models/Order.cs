@@ -9,11 +9,10 @@ namespace eCommerce.Models
         public int Id { get; set; }
 
         [Required]
-        public string CustomerId { get; set; } = string.Empty;
+        public string CustomerId { get; set; }
 
         [ForeignKey("CustomerId")]
-        public Customer Customer { get; set; } = new Customer();
-
+        public Customer Customer { get; set; }
         [Required]
         public DateTime OrderDate { get; set; }
 
@@ -21,22 +20,22 @@ namespace eCommerce.Models
         public decimal TotalAmount { get; set; }
 
         [Required]
-        public string FullName { get; set; } = string.Empty;
+        public string FullName { get; set; } 
 
         [Required]
-        public string Address { get; set; } = string.Empty;
+        public string Address { get; set; }
 
         [Required]
-        public string City { get; set; } = string.Empty;
+        public string City { get; set; } 
 
         [Required]
-        public string State { get; set; } = string.Empty;
+        public string State { get; set; } 
 
         [Required]
-        public string ZipCode { get; set; } = string.Empty;
+        public string ZipCode { get; set; } 
 
         [Required]
-        public string PaymentMethod { get; set; } = string.Empty;
+        public string PaymentMethod { get; set; }
 
         public ICollection<OrderItem>? OrderItems { get; set; }
     }

@@ -24,6 +24,19 @@ namespace eCommerce.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Customer>()
+                    .HasKey(c => c.CustomerId);
+
+            modelBuilder.Entity<Customer>()
+                    .HasMany(c => c.Carts)
+                    .WithOne(cart => cart.Customer)
+                    .HasForeignKey(cart => cart.CustomerId);
+
+            modelBuilder.Entity<Customer>()
+                    .HasMany(c => c.Orders)
+                    .WithOne(order => order.Customer)
+                    .HasForeignKey(order => order.CustomerId);
+
             modelBuilder.Entity<Category>()
                     .HasMany(c => c.Products)
                     .WithOne(p => p.Category)
@@ -33,7 +46,7 @@ namespace eCommerce.Data
             // Cart to Customer
             modelBuilder.Entity<Cart>()
                 .HasOne(c => c.Customer)
-                .WithMany(u => u.Carts)
+                .WithMany()
                 .HasForeignKey(c => c.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
@@ -54,7 +67,7 @@ namespace eCommerce.Data
             // Order to Customer
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.Customer)
-                .WithMany(u => u.Orders)
+                .WithMany()
                 .HasForeignKey(o => o.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
@@ -130,7 +143,5 @@ namespace eCommerce.Data
                 }
             );
         }
-
-        public DbSet<eCommerce.Models.ProductViewModel>? ProductViewModel { get; set; }
     }
 }
