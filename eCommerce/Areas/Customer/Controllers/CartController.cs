@@ -231,7 +231,43 @@ namespace eCommerce.Areas.Customer.Controllers
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Thank you for your purchase! Your order has been placed.";
-            return RedirectToAction("Index", "Shop", new { area = "" });
+            return RedirectToAction("Confirmation", new { orderId = order.Id });
+        }
+
+        public async Task<IActionResult> Confirmation(int orderId)
+        {
+            var order = await _context.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product) 
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new ConfirmationViewModel
+            {
+                OrderId = order.Id,
+                Name = order.Customer.FullName,  
+                Email = order.Customer.Email,
+                OrderDate = order.OrderDate,
+                ShippingName = order.FullName,
+                Address = order.Address,
+                City = order.City,
+                State = order.State,
+                ZipCode = order.ZipCode,
+                Payment = order.PaymentMethod,
+                Items = order.OrderItems.Select(item => new OrderItemViewModel
+                {
+                    ProductName = item.Product.Name,
+                    Quantity = item.Quantity,
+                    Price = item.Price
+                }).ToList()
+            };
+
+            return View(viewModel);
         }
 
 
