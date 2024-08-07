@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using eCommerce.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
-namespace eCommerce.Models
+namespace eCommerce.ViewModels
 {
     public class ShopViewModel
     {

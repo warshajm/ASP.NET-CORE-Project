@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace eCommerce.Models
+namespace eCommerce.ViewModels
 {
     public class CheckoutViewModel
     {
