@@ -156,22 +156,84 @@ namespace eCommerce.Areas.Customer.Controllers
             if (cart == null || !cart.CartItems.Any())
             {
                 TempData["ErrorMessage"] = "Your cart is empty.";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Shop");
             }
 
-            var cartViewModel = new CartViewModel
+            var checkoutViewModel = new CheckoutViewModel
             {
                 CartItems = cart.CartItems.Select(ci => new CartItemViewModel
                 {
                     ProductId = ci.ProductId,
                     ProductName = ci.Product.Name,
                     Quantity = ci.Quantity,
-                    Price = ci.Price,
+                    Price = ci.Price
                 }).ToList()
             };
 
-            return View(cartViewModel);
-        } 
+            return View(checkoutViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Checkout(CheckoutViewModel model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "You need to be logged in to complete the checkout.";
+                return RedirectToAction("Login", "Account", new { area = "Identity" });
+            }
+
+            if (!ModelState.IsValid)
+            {
+
+                TempData["ErrorMessage"] = "Please correct the errors in the form.";
+                return View(model);
+            }
+
+            var cart = await _context.Carts
+                .Include(c => c.CartItems)
+                .ThenInclude(ci => ci.Product)
+                .FirstOrDefaultAsync(c => c.CustomerId == user.Id);
+
+            if (cart == null || !cart.CartItems.Any())
+            {
+                TempData["ErrorMessage"] = "Your cart is empty.";
+                return RedirectToAction("Index");
+            }
+
+            var order = new Order
+            {
+                CustomerId = user.Id,
+                OrderDate = DateTime.Now,
+                TotalAmount = cart.CartItems.Sum(ci => ci.Quantity * ci.Price) * 1.13m,
+                FullName = model.FullName,
+                Address = model.Address,
+                City = model.City,
+                State = model.State,
+                ZipCode = model.ZipCode,
+                PaymentMethod = model.PaymentMethod
+            };
+
+            _context.Orders.Add(order);
+
+            await _context.SaveChangesAsync();
+
+            var orderItems = cart.CartItems.Select(ci => new OrderItem
+            {
+                OrderId = order.Id,
+                ProductId = ci.ProductId,
+                Quantity = ci.Quantity,
+                Price = ci.Price
+            }).ToList();
+
+            _context.OrderItems.AddRange(orderItems);
+            _context.CartItems.RemoveRange(cart.CartItems);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Thank you for your purchase! Your order has been placed.";
+            return RedirectToAction("Index", "Shop");
+        }
+
 
     }
 }
