@@ -24,8 +24,94 @@
             </div>
         }
     }
+    <style>
+        .track-line {
+            height: 2px !important;
+            background-color: #488978;
+            opacity: 1;
+        }
 
-    <div class="row mb-4">
+        .dot {
+            height: 10px;
+            width: 10px;
+            margin-left: 3px;
+            margin-right: 3px;
+            margin-top: 0px;
+            background-color: #488978;
+            border-radius: 50%;
+            display: inline-block
+        }
+
+        .big-dot {
+            height: 25px;
+            width: 25px;
+            margin-left: 0px;
+            margin-right: 0px;
+            margin-top: 0px;
+            background-color: #488978;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .big-dot i {
+            font-size: 12px;
+        }
+
+        .card-stepper {
+            z-index: 0
+        }
+    </style>
+    <section class="vh-65" style="background-color: #eee;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col">
+                    <div class="card card-stepper" style="border-radius: 10px;">
+                        <div class="card-body p-4">
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex flex-column">
+                                    <span class="lead fw-normal">Your order has been initialized.</span>
+                                </div>
+                                <div>
+                                    <a href="@Url.Action("Index", "Shop", new { area = "" })" class="btn btn-dark">Continue Shopping</a>
+                                </div>
+                            </div>
+                            <hr class="my-4">
+
+                            <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
+                                <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot">
+                                    <i class="fa fa-check text-white"></i>
+                                </span>
+                                <hr class="flex-fill track-line"><span class="dot"></span>
+                                <hr class="flex-fill track-line"><span class="dot"></span>
+                                <hr class="flex-fill track-line"><span class="dot"></span>
+
+                            </div>
+
+                            <div class="d-flex flex-row justify-content-between align-items-center">
+                                <div class="d-flex flex-column justify-content-center">
+                                    <span>Today</span><span>
+                                        Order
+                                        placed
+                                    </span>
+                                </div>
+                                <div class="d-flex flex-column justify-content-center align-items-center"><span>Tomorrow</span><span>Order Dispatched</span></div>
+                                <div class="d-flex flex-column align-items-center">
+                                    <span>In 3 Days</span><span>
+                                        Out for
+                                        delivery
+                                    </span>
+                                </div>
+                                <div class="d-flex flex-column align-items-end"><span>In 5 Days</span><span>Delivered</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr />
+    <div class="row mt-4 mb-4">
         <div class="col-md-6">
             <h3 class="mb-3">Order Details</h3>
             <p><strong>Order ID:</strong> @Model.OrderId</p>
@@ -44,7 +130,7 @@
     </div>
     <hr />
 
-    <h4>Items:</h4>
+    <h4>Ordered Items:</h4>
     <div class="table-responsive">
         <table class="table table-bordered table-hover mt-3">
         <thead>
@@ -66,7 +152,5 @@
         </tbody>
     </table>
     </div>
-    <div class="d-flex justify-content-center mt-3">
-        <a href="@Url.Action("Index", "Shop", new { area = "" })" class="btn btn-dark">Continue Shopping</a>
-    </div>
+    
 </div>
