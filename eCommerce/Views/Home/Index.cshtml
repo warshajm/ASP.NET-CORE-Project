@@ -1,8 +1,88 @@
-﻿@{
+﻿@model IEnumerable<eCommerce.ViewModels.ProductViewModel>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <section class="py-5 py-md-7 py-lg-8">
+    <div class="row p-3">
+        <div class="col-md-6 d-flex flex-column justify-center mb-4 mb-md-0">
+                <div class="mb-4">
+                    <h1 class="display-3 fw-bold">Coffeegenic</h1>
+                    <p class="lead text-muted">
+                        Discover the perfect blend of artisanal coffee and cozy ambiance at Coffeegenic, your neighborhood coffee shop.
+                    </p>
+                </div>
+                <a class="btn btn-dark" href="@Url.Action("Index", "Shop")" role="button">Shop Now</a>
+            </div>
+            <div class="col-md-6">
+                <img src="/images/hero-image.jpg" class="img-fluid rounded" alt="Hero">
+            </div>
+        </div>
+    </section>
+    <section class="py-5 py-md-7 py-lg-8 bg-light">
+        <div class="text-center mb-5">
+            <h2 class="display-4 fw-bold">Featured Product</h2>
+            <p class="lead text-muted">
+                Explore our selection of handcrafted coffee drinks, delectable pastries, and more.
+            </p>
+        </div>
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                <div class="col-md-4">
+                <div class="card m-4">
+                        <img src="@Url.Content("~/images/" + product.Image)" class="card-img-top" alt="@product.Name">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">@product.Description</p>
+                            <p class="card-text">@product.Price.ToString("C")</p>
+                            <a href="@Url.Action("Details", "Shop", new { id = product.Id })" class="btn btn-dark">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+    <section id="about" class="py-5 py-md-7 py-lg-8">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="text-center text-md-start mb-4 mb-md-0 p-3">
+                        <h2 class="display-4 fw-bold">About Coffeegenic</h2>
+                        <p class="lead text-muted">
+                            Coffeegenic is a locally-owned coffee shop dedicated to providing a cozy and welcoming atmosphere for our community. We take pride in sourcing the highest quality beans and crafting each drink with care and attention to detail.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <img src="/images/about.jpg" class="img-fluid" alt="About Coffeegenic">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-5 py-md-7 py-lg-8 bg-light">
+        <div class="text-center mb-5">
+            <h2 class="display-4 fw-bold">Contact Us</h2>
+            <p class="lead text-muted">
+                Have a question or feedback? We'd love to hear from you!
+            </p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="name" placeholder="Name">
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" class="form-control" id="email" placeholder="Email">
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" id="message" rows="4" placeholder="Message"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-dark btn-lg w-100">Submit</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
