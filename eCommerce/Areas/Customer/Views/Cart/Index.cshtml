@@ -1,57 +1,79 @@
-﻿@model eCommerce.ViewModels.CartViewModel
+﻿@model CartViewModel
 
-<h1>Shopping Cart</h1>
-
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
-    </div>
+@{
+    ViewData["Title"] = "Shopping Cart";
 }
 
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
-}
-@if (Model.CartItems == null || !Model.CartItems.Any())
-{
-    <div class="alert alert-info mt-4">
-        Your cart is empty. <a class="text-decoration-none" href="@Url.Action("Index", "Shop", new { area = "" })">Continue shopping..</a>
-    </div>
-}
-else
-{
-    <table class="table mt-4 table-responsive">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.CartItems)
-            {
-                <tr>
-                    <td>@item.ProductName</td>
-                    <td>@item.Quantity</td>
-                    <td>@item.Price.ToString("C")</td>
-                    <td>@item.Total.ToString("C")</td>
-                    <td>
-                        <form method="post" asp-action="Remove" asp-route-productId="@item.ProductId" style="display:inline;">
-                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="border p-4">
+    <h1>Shopping Cart</h1>
+    @{
+        if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
 
-    <h5>Sub-Total: @Model.Subtotal.ToString("C")</h5>
+        if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+    }
 
-    <a class="btn btn-primary mt-4" href="@Url.Action("Checkout", "Cart", new { area = "Customer" })">Proceed to Checkout</a>
-}
+    @if (Model.CartItems == null || !Model.CartItems.Any())
+    {
+        <div class="alert alert-info mt-4">
+            Your cart is empty. <a class="text-decoration-none" href="@Url.Action("Index", "Shop", new { area = "" })">Continue shopping..</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive mt-4">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-left py-3 px-4" style="min-width: 250px;">Product</th>
+                        <th class="text-left py-3 px-4" style="width: 100px;">Price</th>
+                        <th class="text-left py-3 px-4" style="width: 100px;">Quantity</th>
+                        <th class="text-left py-3 px-4" style="width: 100px;">Total</th>
+                        <th class="text-left py-3 px-4" style="width: 100px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CartItems)
+                    {
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.Price.ToString("C")</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Total.ToString("C")</td>
+                            <td>
+                                <form method="post" asp-action="Remove" asp-route-productId="@item.ProductId" style="display:inline;">
+                                        <button type="submit" class="btn btn-outline-secondary btn-sm">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-end">
+            <div class="text-left mt-3 mb-3">
+                <div class="fs-5">
+                    <label>Sub-Total: </label> @Model.Subtotal.ToString("C")
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <div>
+                <a class="btn btn-outline-secondary  mt-4" href="@Url.Action("Index", "Shop", new { area = "" })">Back to Shop</a>
+                <a class="btn btn-dark mt-4" href="@Url.Action("Checkout", "Cart", new { area = "Customer" })">Proceed to Checkout</a>
+            </div>
+        </div> 
+    }
+</div>

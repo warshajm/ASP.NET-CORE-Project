@@ -1,22 +1,31 @@
 ﻿@model eCommerce.ViewModels.ConfirmationViewModel
 
-<h2>Order Confirmation</h2>
-
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
-    </div>
+@{
+    ViewData["Title"] = "Order Confirmation";
 }
 
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
-}
+<div class="border p-4">
+    <h1>Order Confirmation</h1>
 
-<div>
+    @{
+        if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+    }
+
+    <div class="mt-4 ">
     <h3>Order Details</h3>
     <p><strong>Order ID:</strong> @Model.OrderId</p>
     <p><strong>Customer Name:</strong> @Model.Name</p>
@@ -53,4 +62,5 @@
      <div class="mt-3">
         <a href="@Url.Action("Index", "Shop", new { area = "" })" class="btn btn-primary">Continue Shopping</a>
     </div>
+</div>
 </div>
