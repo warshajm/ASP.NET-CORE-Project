@@ -1,111 +1,132 @@
 ﻿@model eCommerce.ViewModels.CheckoutViewModel
 
-<h1>Checkout</h1>
-
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
-    </div>
+@{
+    ViewData["Title"] = "Checkout";
 }
 
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
-}
-<fieldset>
-    <legend>Order Summary</legend>
-<table class="table mt-4 table-responsive">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.CartItems)
+<div class="border p-4">
+    <h1>Checkout</h1>
+    @{
+        if (TempData["SuccessMessage"] != null)
         {
-            <tr>
-                <td>@item.ProductName</td>
-                <td>@item.Quantity</td>
-                <td>@item.Price.ToString("C")</td>
-                <td>@item.Total.ToString("C")</td>
-            </tr>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         }
-    </tbody>
-</table>
 
-<h5>Sub-Total: @Model.Subtotal.ToString("C")</h5>
-<h6>Tax (13%): @Model.Tax.ToString("C")</h6>
-<h5>Total Price: @Model.TotalWithTax.ToString("C")</h5>
-</fieldset>
-<form asp-action="Checkout" method="post">
-    <fieldset>
-        <legend>Shipping Information</legend>
+        if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+    }
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Checkout" method="post">
+                <fieldset class="mb-3 mt-3">
+                    <legend class="h4 mb-3">Shipping Information</legend>
 
-        <div class="form-group">
-            <label asp-for="FullName" class="control-label"></label>
-            <input asp-for="FullName" class="form-control" />
-            <span asp-validation-for="FullName" class="text-danger"></span>
+                    <div class="form-group mt-2">
+                        <label asp-for="FullName" class="control-label"></label>
+                        <input asp-for="FullName" class="form-control" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label asp-for="Address" class="control-label"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label asp-for="City" class="control-label"></label>
+                        <input asp-for="City" class="form-control" />
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label asp-for="State" class="control-label"></label>
+                        <input asp-for="State" class="form-control" />
+                        <span asp-validation-for="State" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label asp-for="ZipCode" class="control-label"></label>
+                        <input asp-for="ZipCode" class="form-control" />
+                        <span asp-validation-for="ZipCode" class="text-danger"></span>
+                    </div>
+                </fieldset>
+                <fieldset class="mb-3 mt-4">
+                    <legend class="h4 mb-3">Payment Information</legend>
+
+                    <div class="form-group mt-2">
+                        <label asp-for="PaymentMethod" class="control-label"></label>
+                        <select asp-for="PaymentMethod" class="form-control">
+                            <option value="CreditCard">Credit Card</option>
+                        </select>
+                        <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label asp-for="CardNumber" class="control-label"></label>
+                        <input asp-for="CardNumber" type="text" class="form-control" />
+                        <span asp-validation-for="CardNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label asp-for="CardExpiry" class="control-label"></label>
+                        <input asp-for="CardExpiry" type="text" class="form-control" />
+                        <span asp-validation-for="CardExpiry" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label asp-for="CardCVV" class="control-label"></label>
+                        <input asp-for="CardCVV" type="text" class="form-control" />
+                        <span asp-validation-for="CardCVV" class="text-danger"></span>
+                    </div>
+                </fieldset>
+                <button type="submit" class="btn btn-dark mt-1">Complete Purchase</button>
+                <a class="btn btn-outline-secondary mt-1 mx-2" href="@Url.Action("Index", "Cart", new { area = "Customer" })">Back to Cart</a>
+            </form>
         </div>
-
-        <div class="form-group">
-            <label asp-for="Address" class="control-label"></label>
-            <input asp-for="Address" class="form-control" />
-            <span asp-validation-for="Address" class="text-danger"></span>
+        <div class="col-md-6">
+            <fieldset class="mb-3 mt-3">
+                <legend class="h4">Order Summary</legend>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover mt-3">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CartItems)
+                        {
+                            <tr>
+                                <td>@item.ProductName</td>
+                                <td>@item.Quantity</td>
+                                <td>@item.Price.ToString("C")</td>
+                                <td>@item.Total.ToString("C")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <div class="text-left mt-3 mb-3">
+                        <h6>Sub-Total: @Model.Subtotal.ToString("C")</h6>
+                        <h6>Tax (13%): @Model.Tax.ToString("C")</h6>
+                        <hr />
+                        <h5>Total Price: @Model.TotalWithTax.ToString("C")</h5>
+                    </div>
+                </div>
+            </fieldset>
         </div>
-
-        <div class="form-group">
-            <label asp-for="City" class="control-label"></label>
-            <input asp-for="City" class="form-control" />
-            <span asp-validation-for="City" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="State" class="control-label"></label>
-            <input asp-for="State" class="form-control" />
-            <span asp-validation-for="State" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="ZipCode" class="control-label"></label>
-            <input asp-for="ZipCode" class="form-control" />
-            <span asp-validation-for="ZipCode" class="text-danger"></span>
-        </div>
-    </fieldset>
-
-    <fieldset>
-        <legend>Payment Information</legend>
-
-        <div class="form-group">
-            <label asp-for="PaymentMethod" class="control-label"></label>
-            <select asp-for="PaymentMethod" class="form-control">
-                <option value="CreditCard">Credit Card</option>
-            </select>
-            <span asp-validation-for="PaymentMethod" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="CardNumber" class="control-label"></label>
-            <input asp-for="CardNumber" type="text" class="form-control" />
-            <span asp-validation-for="CardNumber" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="CardExpiry" class="control-label"></label>
-            <input asp-for="CardExpiry" type="text" class="form-control" />
-            <span asp-validation-for="CardExpiry" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="CardCVV" class="control-label"></label>
-            <input asp-for="CardCVV" type="text" class="form-control" />
-            <span asp-validation-for="CardCVV" class="text-danger"></span>
-        </div>
-    </fieldset>
-    <button type="submit" class="btn btn-primary">Complete Purchase</button>
-</form>
+    </div>
+</div>
