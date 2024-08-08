@@ -55,7 +55,7 @@ namespace eCommerce.Areas.Customer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddToCart(int productId, int quantity)
+        public async Task<IActionResult> AddToCart(int productId, int quantity, string returnUrl)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -68,7 +68,7 @@ namespace eCommerce.Areas.Customer.Controllers
             if (product == null || product.Stock < quantity)
             {
                 TempData["ErrorMessage"] = "The product is out of stock or you requested more than available.";
-                return RedirectToAction("Details", "Shop", new { id = productId });
+                return Redirect(returnUrl);
             }
 
             var cart = _context.Carts.FirstOrDefault(c => c.CustomerId == user.Id);
@@ -105,7 +105,7 @@ namespace eCommerce.Areas.Customer.Controllers
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Details", "Shop", new { id = productId, area = "" });
+            return Redirect(returnUrl);
 
         }
 

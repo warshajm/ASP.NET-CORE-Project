@@ -4,60 +4,77 @@
     ViewData["Title"] = "Product Details";
     var isUserLoggedIn = User.Identity.IsAuthenticated;
     var isCustomer = User.IsInRole("Customer");
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
-<h1>Product Details</h1>
+<div class="border p-4">
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
-    </div>
-}
+    <h1>Product Details</h1>
 
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
-}
-
-<div class="row">
-    <div class="col-md-6">
-        <img src="@Url.Content($"~/images/products/{Model.Image}")" class="img-fluid" alt="@Model.Name" />
-    </div>
-
-    <div class="col-md-6">
-        <h2>@Model.Name</h2>
-        <p><strong>Category:</strong> @Model.CategoryName</p>
-        <p><strong>Price:</strong> @Model.Price.ToString("C")</p>
-        <p><strong>Description:</strong> @Model.Description</p>
-        <p><strong>Stock:</strong> @Model.Stock</p>
-
-        @if (isUserLoggedIn)
+    @{
+        if (TempData["SuccessMessage"] != null)
         {
-            if (isCustomer)
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+    }
+
+    <div class="row mb-4 mt-4">
+        <div class="col-md-6">
+            <img src="@Url.Content($"~/images/products/{Model.Image}")" class="img-fluid" alt="@Model.Name" />
+        </div>
+
+        <div class="col-md-6">
+            <h2>@Model.Name</h2>
+            <p class="text-secondary">@Model.CategoryName</p>
+            <p><strong>Description:</strong><br/>@Model.Description</p>
+            <p>@Model.Price.ToString("C")</p>
+            @if (Model.Stock > 0)
             {
-                <form method="post" action="@Url.Action("AddToCart", "Cart", new { area = "Customer" })">
-                    <input type="hidden" name="productId" value="@Model.Id" />
-                    <div class="form-group">
-                        <label for="quantity">Quantity:</label>
-                        <input type="number" name="quantity" id="quantity" class="form-control" min="1" max="@Model.Stock" value="1" required />
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add to Cart</button>
-                </form>
-                <a href="@Url.Action("Index", "Cart", new {area = "Customer"})" class="btn btn-dark mt-3">Go to Cart</a>
+                <p class="text-success">In Stock</p>
+
+                @if (isUserLoggedIn)
+                {
+                    if (isCustomer)
+                    {
+                        <form method="post" action="@Url.Action("AddToCart", "Cart", new { area = "Customer" })">
+                            <input type="hidden" name="productId" value="@Model.Id" />
+                            <input type="hidden" name="returnUrl" value="@returnUrl" />
+                            <div class="d-flex">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" name="quantity" id="quantity" class="form-control form-control-sm mx-2" min="1" max="@Model.Stock" value="1" required />
+                            </div>
+                            <div class="d-flex mt-3">
+                                <button type="submit" class="btn btn-dark mt-auto">Add to Cart</button>
+                                <a href="@Url.Action("Index", "Shop")" class="btn btn-outline-secondary mt-auto mx-2">Back to Shop</a>
+                            </div>
+                        </form>             
+                    }
+                    else
+                    {
+                        <p>You must be a customer to add items to the cart. <a asp-area="Identity" asp-page="/Account/Login">Login</a> or <a asp-area="Identity" asp-page="/Account/Register">Register</a> as a customer.</p>
+                    }
+                }
+                else
+                {
+                    <p>Please <a asp-area="Identity" asp-page="/Account/Login">log in</a> to add items to the cart.</p>
+                }
             }
             else
             {
-                <p>You must be a customer to add items to the cart. <a asp-area="Identity" asp-page="/Account/Login">Login</a> or <a asp-area="Identity" asp-page="/Account/Register">Register</a> as a customer.</p>
+                <p class="text-danger">This product is currently out of stock.</p>
+                <a href="@Url.Action("Index", "Shop")" class="btn btn-outline-secondary mt-3">Back to Shop</a>
             }
-        }
-        else
-        {
-            <p>Please <a asp-area="Identity" asp-page="/Account/Login">log in</a> to add items to the cart.</p>
-        }
-
-        <a href="@Url.Action("Index", "Shop")" class="btn btn-secondary mt-3">Back to Shop</a>
+        </div>
     </div>
 </div>

@@ -2,24 +2,29 @@
 
 @{
     ViewData["Title"] = "Shop";
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
 <div class="border p-4">
 
     <h1>Shop</h1>
 
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["SuccessMessage"]
-        </div>
-    }
+    @{
+        if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
 
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div class="alert alert-danger">
-            @TempData["ErrorMessage"]
-        </div>
+        if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
     }
 
     <form method="get" asp-action="Index">
@@ -53,6 +58,8 @@
                             <div class="d-flex">
                                     <form method="post" asp-action="AddToCart" asp-controller="Cart" asp-area="Customer">
                                         <input type="hidden" name="productId" value="@product.Id" />
+                                        <input type="hidden" name="returnUrl" value="@returnUrl" />
+                                        <input type="hidden" name="quantity" value="1" />
                                         <button type="submit" class="btn btn-dark mt-auto">Add to Cart</button>
                                     </form>
                                 <a href="@Url.Action("Details", "Shop", new { id = product.Id })" class="btn btn-outline-secondary mt-auto mx-2">View Details</a> 
