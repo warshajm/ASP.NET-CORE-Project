@@ -65,10 +65,10 @@ namespace eCommerce.Areas.Customer.Controllers
             }
 
             var product = _context.Products.Find(productId);
-            if (product == null)
+            if (product == null || product.Stock < quantity)
             {
-                TempData["ErrorMessage"] = "The product you are trying to add does not exist.";
-                return RedirectToAction("Index", "Shop");
+                TempData["ErrorMessage"] = "The product is out of stock or you requested more than available.";
+                return RedirectToAction("Details", "Shop", new { id = productId });
             }
 
             var cart = _context.Carts.FirstOrDefault(c => c.CustomerId == user.Id);
@@ -158,6 +158,16 @@ namespace eCommerce.Areas.Customer.Controllers
             {
                 TempData["ErrorMessage"] = "Your cart is empty.";
                 return RedirectToAction("Index", "Shop");
+            }
+
+            // check product stock
+            foreach (var item in cart.CartItems)
+            {
+                if (item.Product.Stock < item.Quantity)
+                {
+                    TempData["ErrorMessage"] = $"Sorry, {item.Product.Name} is out of stock or insufficient quantity available.";
+                    return RedirectToAction("Index", "Cart");
+                }
             }
 
             var checkoutViewModel = new CheckoutViewModel

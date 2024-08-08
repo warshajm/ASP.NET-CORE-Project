@@ -4,53 +4,70 @@
     ViewData["Title"] = "Shop";
 }
 
-<h1>Shop</h1>
+<div class="border p-4">
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
-    </div>
-}
+    <h1>Shop</h1>
 
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
-}
-
-<form method="get" asp-action="Index">
-    <div class="row mb-4 align-items-center">
-        <div class="col-auto">
-            <label for="category" class="col-form-label">Category:</label>
-        </div>
-        <div class="col-md-4">
-            @Html.DropDownList("selectedCategory", Model.Categories, "Select a Category", new { @class = "form-control", id = "category" })
-        </div>
-        <div class="col-auto">
-            <button type="submit" class="btn btn-primary">Filter</button>
-        </div>
-    </div>
-</form>
-
-
-<div class="row">
-    @foreach (var product in Model.Products)
+    @if (TempData["SuccessMessage"] != null)
     {
-        <div class="col-md-4">
-            <div class="card mb-4">
-                <div style="text-align: center;">
-                <img src="@Url.Content($"~/images/products/{product.Image}")" alt="@product.Name" class="img-thumbnail img-fluid" style="max-width: 400px; max-height: 400px; width: auto; height: auto;" />
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">@product.Name</h5>
-                    <p class="card-text">@product.Description</p>
-                    <p class="card-text">Price: @product.Price.ToString("C")</p>
-                    <p class="card-text">Stock: @product.Stock</p>
-                    <a href="@Url.Action("Details", "Shop", new { id = product.Id })" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
         </div>
     }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <form method="get" asp-action="Index">
+        <div class="row mb-4 mt-4">
+            <div class="col-auto">
+                <label for="category" class="text-secondary">Category:</label>
+            </div>
+            <div class="col-md-4">
+                @Html.DropDownList("selectedCategory", Model.Categories, "Select a Category", new { @class = "form-control", id = "category" })
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-dark">Filter</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        @foreach (var product in Model.Products)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="@Url.Content($"~/images/products/{product.Image}")" alt="@product.Name" style="width: 150px; height: 150px;" class="mx-auto d-block" />
+                    <div class="card-body">
+                        <p class="card-text text-secondary">@product.Category.Name</p>
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">@product.Description</p>
+                        <p class="card-text">Price: @product.Price.ToString("C")</p>
+                        @if (product.Stock > 0)
+                        {
+                            <p class="card-text text-success">In Stock</p>
+                            <div class="d-flex">
+                                    <form method="post" asp-action="AddToCart" asp-controller="Cart" asp-area="Customer">
+                                        <input type="hidden" name="productId" value="@product.Id" />
+                                        <button type="submit" class="btn btn-dark mt-auto">Add to Cart</button>
+                                    </form>
+                                <a href="@Url.Action("Details", "Shop", new { id = product.Id })" class="btn btn-outline-secondary mt-auto mx-2">View Details</a> 
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="card-text text-danger">Not Available</p>
+                            <div class="d-flex">
+                                <a href="@Url.Action("Details", "Shop", new { id = product.Id })" class="btn btn-outline-secondary mt-auto">View Details</a>  
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
