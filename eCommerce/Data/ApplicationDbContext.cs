@@ -92,11 +92,13 @@ namespace eCommerce.Data
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // seed coffee categories
+            // seed new categories
             modelBuilder.Entity<Category>().HasData(
-                new Category { Id = "Cat001", Name = "Espresso" },
-                new Category { Id = "Cat002", Name = "Cold Brew" },
-                new Category { Id = "Cat003", Name = "French Press" }
+                new Category { Id = "Cat001", Name = "Espresso Beans" },
+                new Category { Id = "Cat002", Name = "Dark Roast" },
+                new Category { Id = "Cat003", Name = "Light Roast" },
+                new Category { Id = "Cat004", Name = "Medium Roast" },
+                new Category { Id = "Cat005", Name = "Decaf" }
             );
 
             // seed coffee products
@@ -104,64 +106,52 @@ namespace eCommerce.Data
                 new Product
                 {
                     Id = 1,
-                    Name = "Espresso Beans",
-                    Price = 12.99m,
-                    Description = "Rich and bold espresso beans, perfect for a strong shot of espresso.",
-                    Image = "espresso_beans.jpg",
+                    Name = "Premium Espresso Beans",
+                    Price = 14.99m,
+                    Description = "Rich and bold premium espresso beans.",
+                    Image = "espresso_roast.jpeg",
                     Stock = 100,
                     CategoryId = "Cat001"
                 },
                 new Product
                 {
                     Id = 2,
-                    Name = "Double Espresso",
-                    Price = 2.99m,
-                    Description = "A double shot of strong and rich espresso.",
-                    Image = "double_espresso.jpg",
-                    Stock = 150,
-                    CategoryId = "Cat001"
+                    Name = "French Dark Roast",
+                    Price = 13.99m,
+                    Description = "Intense and smoky dark roast coffee.",
+                    Image = "dark_roast.jpeg",
+                    Stock = 120,
+                    CategoryId = "Cat002"
                 },
-
                 new Product
                 {
                     Id = 3,
-                    Name = "Cold Brew Coffee",
-                    Price = 4.99m,
-                    Description = "Smooth and refreshing cold brew coffee.",
-                    Image = "cold_brew.jpg",
-                    Stock = 75,
-                    CategoryId = "Cat002"
+                    Name = "Light Roast Blend",
+                    Price = 12.99m,
+                    Description = "Bright and fruity light roast blend.",
+                    Image = "light_roast.jpeg",
+                    Stock = 150,
+                    CategoryId = "Cat003"
                 },
                 new Product
                 {
                     Id = 4,
-                    Name = "Nitro Cold Brew",
-                    Price = 5.99m,
-                    Description = "Cold brew coffee infused with nitrogen for a creamy texture.",
-                    Image = "nitro_cold_brew.jpg",
-                    Stock = 60,
-                    CategoryId = "Cat002"
+                    Name = "Classic Medium Roast",
+                    Price = 13.49m,
+                    Description = "Well-balanced medium roast coffee.",
+                    Image = "medium_roast.jpeg",
+                    Stock = 130,
+                    CategoryId = "Cat004"
                 },
-
                 new Product
                 {
                     Id = 5,
-                    Name = "French Press Coffee",
-                    Price = 14.99m,
-                    Description = "Coarsely ground coffee beans, ideal for French press brewing.",
-                    Image = "french_press_coffee.jpg",
-                    Stock = 80,
-                    CategoryId = "Cat003"
-                },
-                new Product
-                {
-                    Id = 6,
-                    Name = "Organic French Press Coffee",
-                    Price = 16.99m,
-                    Description = "Organic, fair-trade coffee beans for French press brewing.",
-                    Image = "organic_french_press_coffee.jpg",
-                    Stock = 70,
-                    CategoryId = "Cat003"
+                    Name = "Decaf Coffee",
+                    Price = 11.99m,
+                    Description = "Smooth and flavorful decaf coffee.",
+                    Image = "decaf_coffee.jpeg",
+                    Stock = 140,
+                    CategoryId = "Cat005"
                 }
             );
         }

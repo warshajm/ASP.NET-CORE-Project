@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eCommerce.Data;
 
@@ -11,9 +12,10 @@ using eCommerce.Data;
 namespace eCommerce.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240810052704_UpdatedNewProducts")]
+    partial class UpdatedNewProducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -276,7 +278,7 @@ namespace eCommerce.Data.Migrations
                             Id = 1,
                             CategoryId = "Cat001",
                             Description = "Rich and bold premium espresso beans.",
-                            Image = "espresso_roast.jpeg",
+                            Image = "premium_espresso_beans.jpg",
                             Name = "Premium Espresso Beans",
                             Price = 14.99m,
                             Stock = 100
@@ -286,7 +288,7 @@ namespace eCommerce.Data.Migrations
                             Id = 2,
                             CategoryId = "Cat002",
                             Description = "Intense and smoky dark roast coffee.",
-                            Image = "dark_roast.jpeg",
+                            Image = "dark_roast.jpg",
                             Name = "French Dark Roast",
                             Price = 13.99m,
                             Stock = 120
@@ -296,7 +298,7 @@ namespace eCommerce.Data.Migrations
                             Id = 3,
                             CategoryId = "Cat003",
                             Description = "Bright and fruity light roast blend.",
-                            Image = "light_roast.jpeg",
+                            Image = "light_roast.jpg",
                             Name = "Light Roast Blend",
                             Price = 12.99m,
                             Stock = 150
@@ -306,7 +308,7 @@ namespace eCommerce.Data.Migrations
                             Id = 4,
                             CategoryId = "Cat004",
                             Description = "Well-balanced medium roast coffee.",
-                            Image = "medium_roast.jpeg",
+                            Image = "medium_roast.jpg",
                             Name = "Classic Medium Roast",
                             Price = 13.49m,
                             Stock = 130
@@ -316,7 +318,7 @@ namespace eCommerce.Data.Migrations
                             Id = 5,
                             CategoryId = "Cat005",
                             Description = "Smooth and flavorful decaf coffee.",
-                            Image = "decaf_coffee.jpeg",
+                            Image = "decaf_coffee.jpg",
                             Name = "Decaf Coffee",
                             Price = 11.99m,
                             Stock = 140
