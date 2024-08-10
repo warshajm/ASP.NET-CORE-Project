@@ -92,53 +92,75 @@ namespace eCommerce.Data
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // seed category data
+            // seed coffee categories
             modelBuilder.Entity<Category>().HasData(
-                new Category { Id = "Cat001", Name = "Electronics" },
-                new Category { Id = "Cat002", Name = "Books" },
-                new Category { Id = "Cat003", Name = "Clothing" }
+                new Category { Id = "Cat001", Name = "Espresso" },
+                new Category { Id = "Cat002", Name = "Cold Brew" },
+                new Category { Id = "Cat003", Name = "French Press" }
             );
 
-            // seed product data
+            // seed coffee products
             modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
                     Id = 1,
-                    Name = "Laptop",
-                    Price = 999.99m,
-                    Description = "A high-performance laptop.",
-                    Image = "laptop.jpg",
-                    Stock = 50,
-                    CategoryId = "Cat001"
-                },
-                new Product
-                {
-                    Id = 2,
-                    Name = "Smartphone",
-                    Price = 499.99m,
-                    Description = "A latest model smartphone.",
-                    Image = "smartphone.jpg",
+                    Name = "Espresso Beans",
+                    Price = 12.99m,
+                    Description = "Rich and bold espresso beans, perfect for a strong shot of espresso.",
+                    Image = "espresso_beans.jpg",
                     Stock = 100,
                     CategoryId = "Cat001"
                 },
                 new Product
                 {
+                    Id = 2,
+                    Name = "Double Espresso",
+                    Price = 2.99m,
+                    Description = "A double shot of strong and rich espresso.",
+                    Image = "double_espresso.jpg",
+                    Stock = 150,
+                    CategoryId = "Cat001"
+                },
+
+                new Product
+                {
                     Id = 3,
-                    Name = "Mystery Novel",
-                    Price = 15.99m,
-                    Description = "A thrilling mystery novel.",
-                    Image = "book.jpg",
-                    Stock = 200,
+                    Name = "Cold Brew Coffee",
+                    Price = 4.99m,
+                    Description = "Smooth and refreshing cold brew coffee.",
+                    Image = "cold_brew.jpg",
+                    Stock = 75,
                     CategoryId = "Cat002"
                 },
                 new Product
                 {
                     Id = 4,
-                    Name = "Winter Jacket",
-                    Price = 89.99m,
-                    Description = "A warm winter jacket.",
-                    Image = "jacket.jpg",
-                    Stock = 30,
+                    Name = "Nitro Cold Brew",
+                    Price = 5.99m,
+                    Description = "Cold brew coffee infused with nitrogen for a creamy texture.",
+                    Image = "nitro_cold_brew.jpg",
+                    Stock = 60,
+                    CategoryId = "Cat002"
+                },
+
+                new Product
+                {
+                    Id = 5,
+                    Name = "French Press Coffee",
+                    Price = 14.99m,
+                    Description = "Coarsely ground coffee beans, ideal for French press brewing.",
+                    Image = "french_press_coffee.jpg",
+                    Stock = 80,
+                    CategoryId = "Cat003"
+                },
+                new Product
+                {
+                    Id = 6,
+                    Name = "Organic French Press Coffee",
+                    Price = 16.99m,
+                    Description = "Organic, fair-trade coffee beans for French press brewing.",
+                    Image = "organic_french_press_coffee.jpg",
+                    Stock = 70,
                     CategoryId = "Cat003"
                 }
             );
