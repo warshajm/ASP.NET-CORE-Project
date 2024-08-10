@@ -34,7 +34,7 @@
                 @Html.DropDownList("selectedCategory", Model.Categories, "Select a Category", new { @class = "form-control", id = "category" })
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-dark">Filter</button>
+                <button type="submit" class="btn btn-primary">Filter</button>
             </div>
         </div>
     </form>
@@ -58,7 +58,7 @@
                                         <input type="hidden" name="productId" value="@product.Id" />
                                         <input type="hidden" name="returnUrl" value="@returnUrl" />
                                         <input type="hidden" name="quantity" value="1" />
-                                        <button type="submit" class="btn btn-dark mt-auto">Add to Cart</button>
+                                        <button type="submit" class="btn btn-primary mt-auto">Add to Cart</button>
                                     </form>
                                 <a href="@Url.Action("Details", "Shop", new { id = product.Id })" class="btn btn-outline-secondary mt-auto mx-2">View Details</a> 
                             </div>

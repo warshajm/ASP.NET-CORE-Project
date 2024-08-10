@@ -1,0 +1,103 @@
+﻿:root {
+    --primary-color: #3F2C1F; /* Espresso Brown */
+    --secondary-color: #6E4F28; /* Medium Coffee Brown */
+    --light-color: #D2B69F; /* Light Coffee Cream */
+    --dark-accent-color: #2C1A14; /* Dark Espresso */
+    --primary-hover-color: #4A3B2D; /* Light Espresso */
+    --secondary-hover-color: #5B4A40; /* Muted Espresso */
+    --light-hover-color: #BFAE9B; /* Darker Cream */
+    --text-color: #333333; /* Charcoal */
+    --background-color: #F5F5F5; /* Light Grey or Cream */
+}
+
+h1, .display-3 {
+    color: var(--primary-color);
+}
+
+h2, .display-4 {
+    color: var(--secondary-color);
+}
+
+h3, .display-5 {
+    color: var(--light-color);
+}
+
+.navbar-espresso {
+    background-color: var(--primary-color); 
+}
+
+.navbar-espresso .nav-link:focus,
+.navbar-espresso .nav-link:hover {
+    color: var(--light-hover-color);
+}
+
+.navbar-espresso .nav-link.active {
+    color: var(--secondary-color); 
+}
+
+.navbar-espresso .dropdown-menu {
+    background-color: var(--primary-color); 
+    border-color: var(--dark-accent-color);
+}
+
+.navbar-espresso .dropdown-item {
+    color: var(--light-color); 
+}
+
+.navbar-espresso .dropdown-item:hover {
+    background-color: var(--secondary-hover-color); 
+    color: var(--light-hover-color); 
+}
+
+.navbar-espresso .navbar-toggler-icon {
+    background-image: url('data:image/svg+xml;charset=utf8,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"%3e%3cpath stroke="white" stroke-width="2" d="M5 7h20M5 15h20M5 23h20" /%3e%3c/svg%3e');
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover-color);
+    border-color: var(--primary-hover-color);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-hover-color);
+    border-color: var(--secondary-hover-color);
+}
+
+.btn-outline-primary {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+
+.btn-outline-secondary {
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--secondary-color);
+    color: #ffffff;
+}
+
+.bg-light {
+    background-color: var(--light-color);
+}
+
+.section {
+    background-color: #F5F5F5;
+    color: var(--primary-color);
+}
