@@ -101,3 +101,21 @@ h3, .display-5 {
     background-color: #F5F5F5;
     color: var(--primary-color);
 }
+
+.form-check-input:checked {
+    background-color: var(--primary-color); 
+    border-color: var(--primary-color); 
+}
+
+a {
+    color: inherit; 
+    text-decoration: none; 
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+.custom-link{
+    text-decoration: underline;
+}
+

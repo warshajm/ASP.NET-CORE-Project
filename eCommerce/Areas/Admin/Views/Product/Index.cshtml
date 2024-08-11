@@ -22,10 +22,11 @@
     }
 }
 
-<div class="container">
+<div class="border p-4">
     <h1>Manage Products</h1>
-    <a class="btn btn-dark mb-3" asp-action="Create">Create New Product</a>
-    <table class="table table-responsive-md">
+    <a class="btn btn-primary mb-3" asp-action="Create">Create New Product</a>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover mt-3">
     <thead>
         <tr>
             <th>
@@ -62,7 +63,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Price)
+                $@String.Format("{0:0.00}", item.Price)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
@@ -85,4 +86,5 @@
 }
     </tbody>
 </table>
+    </div>
 </div>

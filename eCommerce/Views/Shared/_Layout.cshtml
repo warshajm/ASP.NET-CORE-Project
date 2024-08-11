@@ -43,34 +43,54 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" href="/#about">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" href="/#contact">Contact</a>
-                        </li>
-
                         @if (User.Identity.IsAuthenticated)
                         {
                             var user = await _userManager.GetUserAsync(User);
-                            if (user != null && await _userManager.IsInRoleAsync(user, "Admin"))
+                            if (user != null)
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="Admin" asp-controller="Dashboard" asp-action="Product">Product</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="Admin" asp-controller="Dashboard" asp-action="Category">Category</a>
-                                </li>
+                                if (await _userManager.IsInRoleAsync(user, "Admin"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" asp-area="Admin" asp-controller="Dashboard" asp-action="Product">Product</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" asp-area="Admin" asp-controller="Dashboard" asp-action="Category">Category</a>
+                                    </li>
+                                }
+                                else if (await _userManager.IsInRoleAsync(user, "Customer"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" href="/#about">About</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" href="/#contact">Contact</a>
+                                    </li>
+                                }
                             }
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" href="/#about">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" href="/#contact">Contact</a>
+                            </li>
                         }
                     </ul>
                     <div class="d-flex mx-2">

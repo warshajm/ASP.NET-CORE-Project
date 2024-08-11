@@ -27,7 +27,7 @@
     @if (Model.CartItems == null || !Model.CartItems.Any())
     {
         <div class="alert alert-info mt-4">
-            Your cart is empty. <a class="text-decoration-none" href="@Url.Action("Index", "Shop", new { area = "" })">Continue shopping..</a>
+            Your cart is empty. <a class="custom-link" href="@Url.Action("Index", "Shop", new { area = "" })">Continue shopping..</a>
         </div>
     }
     else
@@ -71,7 +71,7 @@
 
         <div class="d-flex justify-content-end">
             <div>
-                <a class="btn btn-outline-secondary  mt-4" href="@Url.Action("Index", "Shop", new { area = "" })">Back to Shop</a>
+                <a class="btn btn-outline-secondary mt-4" href="@Url.Action("Index", "Shop", new { area = "" })">Back to Shop</a>
                 <a class="btn btn-primary mt-4" href="@Url.Action("Checkout", "Cart", new { area = "Customer" })">Proceed to Checkout</a>
             </div>
         </div> 
