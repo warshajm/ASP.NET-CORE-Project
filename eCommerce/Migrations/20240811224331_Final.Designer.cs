@@ -9,11 +9,11 @@ using eCommerce.Data;
 
 #nullable disable
 
-namespace eCommerce.Data.Migrations
+namespace eCommerce.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240804230821_ChangedPathIntoImage")]
-    partial class ChangedPathIntoImage
+    [Migration("20240811224331_Final")]
+    partial class Final
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,9 +36,14 @@ namespace eCommerce.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("CustomerId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("CustomerId1");
 
                     b.ToTable("Carts");
                 });
@@ -91,17 +96,27 @@ namespace eCommerce.Data.Migrations
                         new
                         {
                             Id = "Cat001",
-                            Name = "Electronics"
+                            Name = "Espresso Beans"
                         },
                         new
                         {
                             Id = "Cat002",
-                            Name = "Books"
+                            Name = "Dark Roast"
                         },
                         new
                         {
                             Id = "Cat003",
-                            Name = "Clothing"
+                            Name = "Light Roast"
+                        },
+                        new
+                        {
+                            Id = "Cat004",
+                            Name = "Medium Roast"
+                        },
+                        new
+                        {
+                            Id = "Cat005",
+                            Name = "Decaf"
                         });
                 });
 
@@ -115,6 +130,13 @@ namespace eCommerce.Data.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
+                    b.Property<DateTime>("DOB")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -122,8 +144,7 @@ namespace eCommerce.Data.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomerId");
 
@@ -138,19 +159,48 @@ namespace eCommerce.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CustomerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("CustomerId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("CustomerId1");
 
                     b.ToTable("Orders");
                 });
@@ -227,41 +277,51 @@ namespace eCommerce.Data.Migrations
                         {
                             Id = 1,
                             CategoryId = "Cat001",
-                            Description = "A high-performance laptop.",
-                            Image = "laptop.jpg",
-                            Name = "Laptop",
-                            Price = 999.99m,
-                            Stock = 50
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CategoryId = "Cat001",
-                            Description = "A latest model smartphone.",
-                            Image = "smartphone.jpg",
-                            Name = "Smartphone",
-                            Price = 499.99m,
+                            Description = "Rich and bold premium espresso beans.",
+                            Image = "espresso_roast.jpeg",
+                            Name = "Premium Espresso Beans",
+                            Price = 14.99m,
                             Stock = 100
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 2,
                             CategoryId = "Cat002",
-                            Description = "A thrilling mystery novel.",
-                            Image = "books.jpg",
-                            Name = "Mystery Novel",
-                            Price = 15.99m,
-                            Stock = 200
+                            Description = "Intense and smoky dark roast coffee.",
+                            Image = "dark_roast.jpeg",
+                            Name = "French Dark Roast",
+                            Price = 13.99m,
+                            Stock = 120
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = "Cat003",
+                            Description = "Bright and fruity light roast blend.",
+                            Image = "light_roast.jpeg",
+                            Name = "Light Roast Blend",
+                            Price = 12.99m,
+                            Stock = 150
                         },
                         new
                         {
                             Id = 4,
-                            CategoryId = "Cat003",
-                            Description = "A warm winter jacket.",
-                            Image = "jacket.jpg",
-                            Name = "Winter Jacket",
-                            Price = 89.99m,
-                            Stock = 30
+                            CategoryId = "Cat004",
+                            Description = "Well-balanced medium roast coffee.",
+                            Image = "medium_roast.jpeg",
+                            Name = "Classic Medium Roast",
+                            Price = 13.49m,
+                            Stock = 130
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = "Cat005",
+                            Description = "Smooth and flavorful decaf coffee.",
+                            Image = "decaf_coffee.jpeg",
+                            Name = "Decaf Coffee",
+                            Price = 11.99m,
+                            Stock = 140
                         });
                 });
 
@@ -470,10 +530,14 @@ namespace eCommerce.Data.Migrations
             modelBuilder.Entity("eCommerce.Models.Cart", b =>
                 {
                     b.HasOne("eCommerce.Models.Customer", "Customer")
-                        .WithMany("Carts")
+                        .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("eCommerce.Models.Customer", null)
+                        .WithMany("Carts")
+                        .HasForeignKey("CustomerId1");
 
                     b.Navigation("Customer");
                 });
@@ -497,24 +561,17 @@ namespace eCommerce.Data.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("eCommerce.Models.Customer", b =>
+            modelBuilder.Entity("eCommerce.Models.Order", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                    b.HasOne("eCommerce.Models.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("eCommerce.Models.Order", b =>
-                {
-                    b.HasOne("eCommerce.Models.Customer", "Customer")
+                    b.HasOne("eCommerce.Models.Customer", null)
                         .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId1");
 
                     b.Navigation("Customer");
                 });

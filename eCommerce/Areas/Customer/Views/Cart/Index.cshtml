@@ -27,7 +27,7 @@
     @if (Model.CartItems == null || !Model.CartItems.Any())
     {
         <div class="alert alert-info mt-4">
-            Your cart is empty. <a class="custom-link" href="@Url.Action("Index", "Shop", new { area = "" })">Continue shopping..</a>
+            Your cart is empty. <a href="@Url.Action("Index", "Shop", new { area = "" })">Continue shopping...</a>
         </div>
     }
     else
